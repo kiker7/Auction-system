@@ -18,15 +18,16 @@ public class Auction {
     @Column(nullable = false)
     private boolean finished;
 
-    // nullable
-    @ManyToOne()
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private User user;
 
     @OneToMany(mappedBy = "auction")
     private List<Bid> bids;
 
-    @OneToOne(mappedBy = "auction", cascade = CascadeType.ALL)
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "game_id")
     private Game game;
 
     public long getId() {

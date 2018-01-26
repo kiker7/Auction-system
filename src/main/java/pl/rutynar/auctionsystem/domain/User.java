@@ -1,5 +1,8 @@
 package pl.rutynar.auctionsystem.domain;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -27,7 +30,11 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Library library;
 
     @OneToMany(mappedBy = "user")
@@ -83,6 +90,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Library getLibrary() {

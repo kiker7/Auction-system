@@ -12,8 +12,8 @@ public class Library {
     private long id;
 
     @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private User owner;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany(mappedBy = "library")
     private List<Game> games;
@@ -27,11 +27,11 @@ public class Library {
     }
 
     public User getOwner() {
-        return owner;
+        return user;
     }
 
     public void setOwner(User owner) {
-        this.owner = owner;
+        this.user = owner;
     }
 
     public List<Game> getGames() {
