@@ -16,9 +16,14 @@ import pl.rutynar.auctionsystem.exception.UserNotFoundException;
 import pl.rutynar.auctionsystem.repository.UserRepository;
 import pl.rutynar.auctionsystem.service.UserService;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -71,6 +76,12 @@ public class UserServiceImpl implements UserService {
         user.setLibrary(library);
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return StreamSupport.stream(userRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 
     @Override

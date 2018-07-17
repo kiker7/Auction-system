@@ -1,29 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Biblioteka</title>
-
-    <div th:replace="fragments/header :: header-css"/>
-
+<head th:include="fragments/header :: head-source">
+    <title id="pageTitle">Biblioteka gier</title>
 </head>
 <body>
-
-<div th:replace="fragments/header :: header"/>
-
+<div th:include="fragments/header :: navbar"></div>
 <div class="container">
-
-    <div class="starter-template">
-        <h1>Biblioteka</h1>
-    </div>
-
-    <div>
-        Moja biblioteka
-    </div>
-
-
+    <h1>Biblioteka</h1>
+    <p>Lista gier</p>
 </div>
-<!-- /.container -->
-<div th:replace="fragments/footer :: footer"/>
-
+<div th:include="fragments/footer :: footer"></div>
 </body>
 </html>

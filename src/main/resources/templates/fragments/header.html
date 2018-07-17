@@ -2,38 +2,51 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
->
-<head>
-    <div th:fragment="header-css">
-        <!-- this is header-css -->
-        <link rel="stylesheet" type="text/css"
-              href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
 
-        <link rel="stylesheet" th:href="@{/css/main.css}"
-              href="../../css/main.css" />
-    </div>
+<head th:fragment="head-source">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.1.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="webjars/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css"/>
+
+    <title th:include=":: #pageTitle"></title>
 </head>
 <body>
-<div th:fragment="header">
-    <!-- this is header -->
-    <nav class="navbar navbar-inverse">
+<div th:fragment="navbar" class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" th:href="@{/home}"><i class="fa fa-home"></i> Strona główna</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="navbarNavDropdown" class="navbar-collapse collapse">
+            <ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/auctions}"><i class="fa fa-clock-o"></i> Aukcje</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/library}"><i class="fa fa-gamepad"></i> Biblioteka</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav" sec:authorize="isAuthenticated()">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/user}"><i class="fa fa-user"></i> Profil</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/logout}"><i class="fa fa-power-off"></i> Wyloguj</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto" sec:authorize="isAnonymous()">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/register}"><i class="fa fa-user-plus"></i> Rejestruj</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/login}"><i class="fa fa-sign-in"></i> Zaloguj</a>
+                </li>
+            </ul>
 
-        <div sec:authorize="isAuthenticated()" class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" th:href="@{/home}"><span class="glyphicon glyphicon-home"></span> Strona główna</a>
-            </div>
-            <div id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a th:href="@{/auctions}"><span class="glyphicon glyphicon-star"></span> Aukcje</a></li>
-                    <li class="active"><a th:href="@{/library}"><span class="glyphicon glyphicon-tasks"></span> Biblioteka</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span> Wyloguj</a></li>
-                </ul>
-            </div>
         </div>
     </nav>
 </div>
-
 </body>
 </html>

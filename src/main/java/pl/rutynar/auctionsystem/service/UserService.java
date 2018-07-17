@@ -4,6 +4,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import pl.rutynar.auctionsystem.domain.User;
 import pl.rutynar.auctionsystem.dto.CreateUserFormDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
@@ -16,5 +17,5 @@ public interface UserService extends UserDetailsService {
 
     User createUserFromForm(CreateUserFormDTO form);
 
-
+    List<User> getAllUsers();
 }

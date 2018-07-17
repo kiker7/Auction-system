@@ -1,21 +1,18 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
->
-<head>
-    <title>Login </title>
-    <div th:replace="fragments/header :: header-css"/>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/header :: head-source">
+    <title id="pageTitle">Strona główna</title>
 </head>
 <body>
 
-<div th:replace="fragments/header :: header"/>
+<div th:include="fragments/header :: navbar"></div>
 
-<div class="container">
-
+<div class="container p-4">
     <div class="row" style="margin-top:20px">
-        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+        <div class="col-sm-5 offset-sm-3 text-center">
             <form th:action="@{/login}" method="post">
                 <fieldset>
-                    <h1>Logowanie</h1>
+                    <h2 class="p-4">Logowanie</h2>
 
                     <div th:if="${error == true}">
                         <div class="alert alert-info">
@@ -33,10 +30,8 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-6">
+                        <div class="col-sm-6 offset-sm-3 text-center">
                             <input type="submit" class="btn btn-lg btn-primary btn-block" value="Zaloguj"/>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6">
                         </div>
                     </div>
                 </fieldset>
@@ -46,7 +41,7 @@
 
 </div>
 
-<div th:replace="fragments/footer :: footer"/>
+<div th:include="fragments/footer :: footer"></div>
 
 </body>
 </html>
