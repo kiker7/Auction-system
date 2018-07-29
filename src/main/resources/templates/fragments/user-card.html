@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="userCard (user)">
+    <div class="card" style="width: 300px; padding: 20px; margin: 5px;">
+        <img class="card-img-top" th:src="@{/images/img_avatar.png}" alt="Avatar" style="width: 100%;"/>
+        <div class="card-body">
+            <h4 class="card-title" th:text="${user.getFirstName() + ' ' + user.getLastName() }"></h4>
+            <p>Info [liczba gier itp.]</p>
+            <a href="#" class="btn btn-primary">Profil</a>
+        </div>
+    </div>
+</div>
+</html>

@@ -1,6 +1,8 @@
 package pl.rutynar.auctionsystem.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,14 +18,10 @@ import pl.rutynar.auctionsystem.exception.UserNotFoundException;
 import pl.rutynar.auctionsystem.repository.UserRepository;
 import pl.rutynar.auctionsystem.service.UserService;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -79,9 +77,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return StreamSupport.stream(userRepository.findAll().spliterator(), false)
-                .collect(Collectors.toList());
+    public Page<User> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
     @Override

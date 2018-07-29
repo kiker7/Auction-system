@@ -8,14 +8,44 @@
 <div th:include="fragments/header :: navbar"></div>
 
 <div class="container">
-    <div>
-       <div th:each="user: ${users}">
-           <div class="card" style="width: 400px">
-               <div class="card-body">
-                   <h4 class="card-title" th:text="${user.getFirstName() + ' ' + user.getLastName() }" ></h4>
-               </div>
-           </div>
-       </div>
+    <div class="row" style="margin: 30px auto; justify-content: space-evenly">
+            <div th:each="user: ${userList}">
+                <div th:include="fragments/user-card :: userCard(${user})"></div>
+            </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-1">
+            <select class="form-control pagination" id="pageSizeSelect">
+                <option th:each="pageSize: ${pageSizes}" th:text="${pageSize}" th:value="${pageSize}"
+                        th:selected="${pageSize} == ${selectedPageSize}">
+                </option>
+            </select>
+        </div>
+        <div th:if="${userList.totalPages != 1}" class="form-group col-md-11">
+            <ul class="pagination justify-content-center">
+                <li th:class="${userList.number == 0} ? disabled">
+                    <a class="page-link" th:href="@{/home(pageSize=${selectedPageSize}, page =1)}">«</a>
+                </li>
+                <li th:class="${userList.number == 0} ? disabled">
+                    <a class="page-link"
+                       th:href="@{/home(pageSize=${selectedPageSize}, page = ${userList.number})}">←</a>
+                </li>
+                <li th:class="${userList.number == (page - 1)} ? 'active pointer-disabled'"
+                    th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+                    <a class="page-link"
+                       th:href="@{/home(pageSize=${selectedPageSize}, page=${page})}"
+                       th:text="${page}"></a>
+                </li>
+                <li th:class="${userList.number + 1 == userList.totalPages} ? disabled">
+                    <a class="page-link"
+                       th:href="@{home(pageSize=${selectedPageSize}, page=${userList.number + 2})}">→</a>
+                </li>
+                <li th:class="${userList.number + 1 == userList.totalPages} ? disabled">
+                    <a class="page-link"
+                       th:href="@{home(pageSize=${selectedPageSize}, page=${userList.totalPages})}">»</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 <div th:include="fragments/footer :: footer"></div>

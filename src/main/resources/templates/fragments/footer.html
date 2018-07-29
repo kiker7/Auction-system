@@ -6,17 +6,20 @@
 </head>
 <body>
 <div th:fragment="footer">
-    <script src="webjars/jquery/3.3.1-1/jquery.min.js"></script>
-    <script src="webjars/popper.js/1.14.1/umd/popper.min.js"></script>
-    <script src="webjars/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <footer class="footer">
-        <div class="container">
+    <div style="margin-top: 50px;">
+        <script src="webjars/jquery/3.3.1-1/jquery.min.js"></script>
+        <script src="webjars/popper.js/1.14.1/umd/popper.min.js"></script>
+        <script src="webjars/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+        <script th:src="@{/js/pagination.js}"></script>
+        <footer class="footer">
+            <div class="container">
                 <span sec:authorize="isAuthenticated()">
                 | Użytkownik: <span sec:authentication="name"></span> |
                 Rola: <span sec:authentication="principal.authorities"></span>
             </span>
-        </div>
-    </footer>
+            </div>
+        </footer>
+    </div>
 </div>
 </body>
 </html>

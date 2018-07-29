@@ -2,16 +2,27 @@ package pl.rutynar.auctionsystem.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import pl.rutynar.auctionsystem.domain.User;
 import pl.rutynar.auctionsystem.service.UserService;
+import pl.rutynar.auctionsystem.wrapper.PageWrapper;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class HomeController {
+
+    // For pagination on home page
+    private static final int BUTTONS_TO_SHOW = 3;
+    private static final int INITIAL_PAGE = 0;
+    private static final int INITIAL_PAGE_SIZE = 6;
+    private static final int[] PAGE_SIZES = {6, 12};
 
     @Autowired
     private UserService userService;
@@ -23,10 +34,21 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    public String userHome(Model model){
+    public ModelAndView userHome(@RequestParam("pageSize") Optional<Integer> pageSize, @RequestParam("page") Optional<Integer> page){
 
-        model.addAttribute("users", userService.getAllUsers());
+        ModelAndView modelAndView = new ModelAndView("home");
 
-        return "home";
+        int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
+        int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
+
+        Page<User> userList = userService.getAllUsers(new PageRequest(evalPage, evalPageSize));
+        PageWrapper pageWrapper = new PageWrapper(userList.getTotalPages(), userList.getNumber(), BUTTONS_TO_SHOW);
+
+        modelAndView.addObject("userList", userList);
+        modelAndView.addObject("selectedPageSize", evalPageSize);
+        modelAndView.addObject("pageSizes", PAGE_SIZES);
+        modelAndView.addObject("pager", pageWrapper);
+
+        return modelAndView;
     }
 }
