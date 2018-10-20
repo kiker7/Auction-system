@@ -6,8 +6,18 @@
 <body>
 <div th:include="fragments/header :: navbar"></div>
 <div class="container">
-    <h1>Biblioteka</h1>
+    <div class="row">
+        <div class="col">
+            <h1>Biblioteka</h1>
+        </div>
+        <div class="col text-right p-1">
+            <a th:href="@{/game/add}" class="btn btn-primary">Dodaj nową gre</a>
+        </div>
+    </div>
+
     <p>Lista gier</p>
+
+
 </div>
 <div th:include="fragments/footer :: footer"></div>
 </body>
