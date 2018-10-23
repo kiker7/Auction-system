@@ -14,9 +14,45 @@
             <a th:href="@{/game/add}" class="btn btn-primary">Dodaj nową gre</a>
         </div>
     </div>
-
-    <p>Lista gier</p>
-
+    <div class="row" style="margin: 30px auto; justify-content: space-evenly">
+        <div th:each="game: ${gameList}">
+            <div th:include="fragments/game-card :: gameCard(${game})"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-1">
+            <select class="form-control pagination" id="libraryPageSizeSelect">
+                <option th:each="pageSize: ${pageSizes}" th:text="${pageSize}" th:value="${pageSize}"
+                        th:selected="${pageSize} == ${selectedPageSize}">
+                </option>
+            </select>
+        </div>
+        <div th:if="${gameList.totalPages != 1}" class="form-group col-md-11">
+            <ul class="pagination justify-content-center">
+                <li th:class="${gameList.number == 0} ? disabled">
+                    <a class="page-link" th:href="@{/library(pageSize=${selectedPageSize}, page =1)}">«</a>
+                </li>
+                <li th:class="${gameList.number == 0} ? disabled">
+                    <a class="page-link"
+                       th:href="@{/library(pageSize=${selectedPageSize}, page = ${gameList.number})}">←</a>
+                </li>
+                <li th:class="${gameList.number == (page - 1)} ? 'active pointer-disabled'"
+                    th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+                    <a class="page-link"
+                       th:href="@{/library(pageSize=${selectedPageSize}, page=${page})}"
+                       th:text="${page}"></a>
+                </li>
+                <li th:class="${gameList.number + 1 == gameList.totalPages} ? disabled">
+                    <a class="page-link"
+                       th:href="@{library(pageSize=${selectedPageSize}, page=${gameList.number + 2})}">→</a>
+                </li>
+                <li th:class="${gameList.number + 1 == gameList.totalPages} ? disabled">
+                    <a class="page-link"
+                       th:href="@{library(pageSize=${selectedPageSize}, page=${gameList.totalPages})}">»</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
 </div>
 <div th:include="fragments/footer :: footer"></div>

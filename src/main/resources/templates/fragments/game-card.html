@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<div th:fragment="gameCard">
+<div th:fragment="gameCard (game)">
     <div class="card" style="width: 300px; padding: 20px; margin: 5px;">
-        <img class="card-img-top" th:src="@{/images/img_avatar.png}" alt="Avatar" style="width: 100%;"/>
+        <img class="card-img-top" th:src="@{/images/game.jpg}" alt="Avatar" style="width: 100%;"/>
         <div class="card-body">
-            <h4 class="card-title" th:text="NAZWA_GRY"></h4>
-            <p>CENA</p>
-            <a href="#" class="btn btn-primary">OBSERWÓJ</a>
+            <h4 class="card-title" th:text="${game.getName()}"></h4>
+            <p th:text="${game.getPrice()}" ></p>
+            <a href="#" class="btn btn-primary">follow</a>
         </div>
     </div>
 </div>

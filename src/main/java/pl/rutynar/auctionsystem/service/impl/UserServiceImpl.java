@@ -10,11 +10,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.rutynar.auctionsystem.domain.Game;
 import pl.rutynar.auctionsystem.domain.Library;
 import pl.rutynar.auctionsystem.domain.Role;
 import pl.rutynar.auctionsystem.domain.User;
 import pl.rutynar.auctionsystem.dto.CreateUserFormDTO;
 import pl.rutynar.auctionsystem.exception.UserNotFoundException;
+import pl.rutynar.auctionsystem.repository.GameRepository;
 import pl.rutynar.auctionsystem.repository.UserRepository;
 import pl.rutynar.auctionsystem.service.UserService;
 
@@ -28,6 +30,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private GameRepository gameRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -79,6 +84,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<User> getAllUsers(Pageable pageable) {
         return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Game> getUserGamesFromLibrary(Pageable pageable, Library library) {
+        return gameRepository.findAllByLibrary(library, pageable);
     }
 
     @Override

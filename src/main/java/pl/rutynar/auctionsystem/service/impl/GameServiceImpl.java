@@ -40,7 +40,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Page<Game> getAllGamesByLibrary(Pageable pageable, Library library) {
-        return gameRepository.findAllByLibrary(pageable, library);
+        return gameRepository.findAllByLibrary(library, pageable);
     }
 
     @Override

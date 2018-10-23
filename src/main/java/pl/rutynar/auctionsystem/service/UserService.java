@@ -3,6 +3,8 @@ package pl.rutynar.auctionsystem.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import pl.rutynar.auctionsystem.domain.Game;
+import pl.rutynar.auctionsystem.domain.Library;
 import pl.rutynar.auctionsystem.domain.User;
 import pl.rutynar.auctionsystem.dto.CreateUserFormDTO;
 
@@ -19,4 +21,6 @@ public interface UserService extends UserDetailsService {
     User createUserFromForm(CreateUserFormDTO form);
 
     Page<User> getAllUsers(Pageable pageable);
+
+    Page<Game> getUserGamesFromLibrary(Pageable pageable, Library library);
 }
