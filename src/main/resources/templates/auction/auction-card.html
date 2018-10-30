@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="auctionCard (auction)">
+    <div class="mt-2 bg-light border rounded ">
+        <div class="d-flex">
+            <div>
+                <img class="p-2" th:src="@{/images/game.jpg}" alt="Avatar" style="width: 150px;"/>
+            </div>
+            <div>
+                <div class="d-flex flex-column">
+                    <div class="p-2">
+                        <h5 th:text="${auction.getGame().getName()}"></h5>
+                    </div>
+                    <div class="d-flex">
+                        <div class="p-2">
+                            <div th:text="'Liczba uczestników: ' + ${auction.getFollowers().size()}"></div>
+                            <div th:with="days=${T(java.util.concurrent.TimeUnit).DAYS}, millis=${T(java.util.concurrent.TimeUnit).MILLISECONDS}"
+                                 th:text="'Czas do zakończenia: ' + ${days.convert(auction.getClosingTime().getTime() - #dates.createNow().getTime(), millis)} + ' dni'" ></div>
+                        </div>
+                        <div class="p-3">
+                            <a th:href="'/auction/' + ${auction.getId()}" class="align-self-end btn btn-primary">Licytuj</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</html>

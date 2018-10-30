@@ -1,6 +1,7 @@
 package pl.rutynar.auctionsystem.data.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import pl.rutynar.auctionsystem.data.Observer;
 
@@ -10,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Users")
-@Data
+@Data @EqualsAndHashCode(exclude = "followedAuctions")
 @NoArgsConstructor
 public class User implements Observer {
 

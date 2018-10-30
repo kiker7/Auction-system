@@ -13,11 +13,7 @@
             <div th:unless="${game?.auction}">
                 <div th:if="${#authentication.name} == ${game.getOwnerName()}">
 
-                    <form>
-
-                    </form>
-
-                    <a href="/auctions" class="btn btn-primary mx-auto" style="width: 200px" >Wystaw na aukcję</a>
+                    <a th:href="'/game/create-auction/' + ${game.getId()}" class="btn btn-primary mx-auto" style="width: 200px" >Wystaw na aukcję</a>
                 </div>
             </div>
         </div>

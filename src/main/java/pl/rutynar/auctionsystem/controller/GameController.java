@@ -7,11 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import pl.rutynar.auctionsystem.data.domain.Auction;
 import pl.rutynar.auctionsystem.data.domain.Game;
 import pl.rutynar.auctionsystem.dto.CreateGameFormDTO;
+import pl.rutynar.auctionsystem.service.AuctionService;
 import pl.rutynar.auctionsystem.service.GameService;
+import pl.rutynar.auctionsystem.service.UserService;
 import pl.rutynar.auctionsystem.wrapper.PageWrapper;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Controller
@@ -25,6 +29,9 @@ public class GameController {
 
     @Autowired
     private GameService gameService;
+
+    @Autowired
+    private AuctionService auctionService;
 
     // TODO: show game details
     @GetMapping("{gameId}")
@@ -41,8 +48,7 @@ public class GameController {
     @GetMapping("/create-auction/{gameId}")
     public String addNewAuction(@PathVariable long gameId){
 
-
-
+        auctionService.createAuctionFromGame(gameService.getGameById(gameId));
         return "redirect:/auctions";
     }
 

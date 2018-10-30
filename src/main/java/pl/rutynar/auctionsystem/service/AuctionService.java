@@ -1,11 +1,17 @@
 package pl.rutynar.auctionsystem.service;
 
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import pl.rutynar.auctionsystem.data.domain.Auction;
+import pl.rutynar.auctionsystem.data.domain.Game;
 
-import java.util.Optional;
 
 public interface AuctionService {
 
-    Optional<Auction> getAuctionById(long id);
+    Auction getAuctionById(long id);
+
+    void createAuctionFromGame(Game game);
+
+    Page<Auction> getAllAuctions(Pageable pageable);
 }
