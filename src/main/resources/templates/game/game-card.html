@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="gameCard (game)">
+    <div class="card" style="width: 300px; padding: 20px; margin: 5px;">
+        <img class="card-img-top" th:src="@{/images/game.jpg}" alt="Avatar" style="width: 100%;"/>
+        <div class="card-body">
+            <h4 class="card-title" th:text="${game.getName()}"></h4>
+            <p th:text=" ${'Cena: ' + game.getPrice()}" ></p>
+            <div th:if="${game?.auction}">
+                <a th:href="'/auction/' + ${game.getAuction().getId()}" class="btn btn-primary mx-auto" style="width: 200px">Przejdź do aukcji</a>
+            </div>
+            <div th:unless="${game?.auction}">
+                <div th:if="${#authentication.name} == ${game.getOwnerName()}">
+
+                    <form>
+
+                    </form>
+
+                    <a href="/auctions" class="btn btn-primary mx-auto" style="width: 200px" >Wystaw na aukcję</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

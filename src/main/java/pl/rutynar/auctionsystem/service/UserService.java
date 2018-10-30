@@ -3,9 +3,9 @@ package pl.rutynar.auctionsystem.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import pl.rutynar.auctionsystem.domain.Game;
-import pl.rutynar.auctionsystem.domain.Library;
-import pl.rutynar.auctionsystem.domain.User;
+import pl.rutynar.auctionsystem.data.domain.Game;
+import pl.rutynar.auctionsystem.data.domain.Library;
+import pl.rutynar.auctionsystem.data.domain.User;
 import pl.rutynar.auctionsystem.dto.CreateUserFormDTO;
 
 import java.util.Optional;

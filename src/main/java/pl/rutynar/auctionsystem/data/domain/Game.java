@@ -1,4 +1,4 @@
-package pl.rutynar.auctionsystem.domain;
+package pl.rutynar.auctionsystem.data.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +21,8 @@ public class Game {
     @Column(nullable = false)
     private int price;
 
+    @Column(nullable = false)
+    private String ownerName;
 
     @OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
     private Auction auction;

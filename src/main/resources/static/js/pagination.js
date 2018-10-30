@@ -1,6 +1,7 @@
 $(document).ready(function () {
     changePageAndSize();
     changeLibraryPageSize();
+    changeAllGamesPageSize();
 });
 
 function changePageAndSize() {
@@ -12,5 +13,11 @@ function changePageAndSize() {
 function changeLibraryPageSize() {
     $('#libraryPageSizeSelect').change(function (e) {
         window.location.replace("/library?pageSize=" + this.value + "&page=1");
+    })
+}
+
+function changeAllGamesPageSize() {
+    $('#gamesPageSizeSelect').change(function (e) {
+        window.location.replace("/game/all?pageSize=" + this.value + "&page=1");
     })
 }

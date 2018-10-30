@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/header :: head-source">
+    <title id="pageTitle">Gry</title>
+</head>
+<body>
+<div th:include="fragments/header :: navbar"></div>
+
+<div class="container">
+    <div class="row" style="margin: 30px auto; justify-content: space-evenly">
+        <div th:each="game: ${games}">
+            <div th:include="/game/game-card :: gameCard(${game})"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-1">
+            <select class="form-control pagination" id="gamesPageSizeSelect">
+                <option th:each="pageSize: ${pageSizes}" th:text="${pageSize}" th:value="${pageSize}"
+                        th:selected="${pageSize} == ${selectedPageSize}">
+                </option>
+            </select>
+        </div>
+        <div th:if="${games.totalPages != 1}" class="form-group col-md-11">
+            <ul class="pagination justify-content-center">
+                <li th:class="${games.number == 0} ? disabled">
+                    <a class="page-link" th:href="@{/game/all(pageSize=${selectedPageSize}, page =1)}">«</a>
+                </li>
+                <li th:class="${games.number == 0} ? disabled">
+                    <a class="page-link"
+                       th:href="@{/game/all(pageSize=${selectedPageSize}, page = ${games.number})}">←</a>
+                </li>
+                <li th:class="${games.number == (page - 1)} ? 'active pointer-disabled'"
+                    th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+                    <a class="page-link"
+                       th:href="@{/game/all(pageSize=${selectedPageSize}, page=${page})}"
+                       th:text="${page}"></a>
+                </li>
+                <li th:class="${games.number + 1 == games.totalPages} ? disabled">
+                    <a class="page-link"
+                       th:href="@{/game/all(pageSize=${selectedPageSize}, page=${games.number + 2})}">→</a>
+                </li>
+                <li th:class="${games.number + 1 == games.totalPages} ? disabled">
+                    <a class="page-link"
+                       th:href="@{/game/all(pageSize=${selectedPageSize}, page=${games.totalPages})}">»</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div th:include="fragments/footer :: footer"></div>
+</body>
+</html>

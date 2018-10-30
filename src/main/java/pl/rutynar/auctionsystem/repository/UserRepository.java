@@ -3,7 +3,7 @@ package pl.rutynar.auctionsystem.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import pl.rutynar.auctionsystem.domain.User;
+import pl.rutynar.auctionsystem.data.domain.User;
 
 import java.util.Optional;
 

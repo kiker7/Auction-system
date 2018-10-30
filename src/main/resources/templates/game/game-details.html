@@ -7,7 +7,9 @@
 <div th:include="fragments/header :: navbar"></div>
 
 <div class="container">
-    <p>Game container</p>
+
+
+    <p th:text="${game.getName()}"></p>
 </div>
 
 <div th:include="fragments/footer :: footer"></div>

@@ -1,4 +1,4 @@
-package pl.rutynar.auctionsystem.domain;
+package pl.rutynar.auctionsystem.data.domain;
 
 import javax.persistence.*;
 import java.util.List;

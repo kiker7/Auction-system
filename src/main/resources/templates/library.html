@@ -8,7 +8,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h1>Biblioteka</h1>
+            <h1></h1>
         </div>
         <div class="col text-right p-1">
             <a th:href="@{/game/add}" class="btn btn-primary">Dodaj nową gre</a>
@@ -16,7 +16,7 @@
     </div>
     <div class="row" style="margin: 30px auto; justify-content: space-evenly">
         <div th:each="game: ${gameList}">
-            <div th:include="fragments/game-card :: gameCard(${game})"></div>
+            <div th:include="/game/game-card :: gameCard(${game})"></div>
         </div>
     </div>
     <div class="row">

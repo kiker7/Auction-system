@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="bidDetail (bid)">
+    <p th:text="${bid.getUser().getName()}"></p>
+    <p th:text="${bid.getOffer()}"></p>
+</div>
+</html>

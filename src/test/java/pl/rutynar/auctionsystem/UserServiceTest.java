@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import pl.rutynar.auctionsystem.domain.User;
+import pl.rutynar.auctionsystem.data.domain.User;
 import pl.rutynar.auctionsystem.repository.UserRepository;
 import pl.rutynar.auctionsystem.service.impl.UserServiceImpl;
 

@@ -25,7 +25,10 @@
                     <a class="nav-link" th:href="@{/auctions}"><i class="fa fa-clock-o"></i> Aukcje</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" th:href="@{/library}"><i class="fa fa-gamepad"></i> Biblioteka</a>
+                    <a class="nav-link" th:href="@{/library}"><i class="fa fa-bookmark"></i> Moja biblioteka</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/game/all}"><i class="fa fa-gamepad"></i> Gry</a>
                 </li>
             </ul>
             <ul class="navbar-nav" sec:authorize="isAuthenticated()">
