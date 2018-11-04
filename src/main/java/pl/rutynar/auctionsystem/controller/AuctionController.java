@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pl.rutynar.auctionsystem.data.domain.Auction;
+import pl.rutynar.auctionsystem.data.domain.User;
 import pl.rutynar.auctionsystem.service.AuctionService;
+import pl.rutynar.auctionsystem.service.UserService;
 import pl.rutynar.auctionsystem.wrapper.PageWrapper;
 
 import java.util.Optional;
@@ -24,6 +26,9 @@ public class AuctionController {
 
     @Autowired
     private AuctionService auctionService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/auctions")
     public ModelAndView auctions(@RequestParam("pageSize")Optional<Integer> pageSize, @RequestParam("page") Optional<Integer> page) {
@@ -49,8 +54,25 @@ public class AuctionController {
     @GetMapping("/auction/{auctionId}")
     public ModelAndView getAuction(@PathVariable long auctionId) {
 
+        Auction auction = auctionService.getAuctionById(auctionId);
         ModelAndView modelAndView = new ModelAndView("auction/auction-details");
-        modelAndView.addObject("auction", auctionService.getAuctionById(auctionId));
+        modelAndView.addObject("auction", auction);
+        modelAndView.addObject("closingTime", auctionService.calculateTimeLeftToCloseAuction(auction));
+        modelAndView.addObject("followPermission", auctionService.checkUserPermissionToFollow(userService.getCurrentUser(), auction));
         return modelAndView;
+    }
+
+    @GetMapping("auction/{auctionId}/follow")
+    public String followAuction(@PathVariable long auctionId){
+
+        auctionService.addFollower(userService.getCurrentUser(), auctionService.getAuctionById(auctionId));
+        return "redirect:/auction/" + auctionId;
+    }
+
+    @GetMapping("auction/{auctionId}/unfollow")
+    public String unfollowAuction(@PathVariable long auctionId){
+
+        auctionService.removeFollower(userService.getCurrentUser(), auctionService.getAuctionById(auctionId));
+        return "redirect:/auction/" + auctionId;
     }
 }

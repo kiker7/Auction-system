@@ -3,6 +3,7 @@ package pl.rutynar.auctionsystem.data.domain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.rutynar.auctionsystem.data.Observer;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Entity
 @Table(name = "Users")
 @Data @EqualsAndHashCode(exclude = "followedAuctions")
+@ToString(exclude = {"followedAuctions", "auctions"})
 @NoArgsConstructor
 public class User implements Observer {
 

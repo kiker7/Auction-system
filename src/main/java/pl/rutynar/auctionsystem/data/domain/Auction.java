@@ -3,6 +3,7 @@ package pl.rutynar.auctionsystem.data.domain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.rutynar.auctionsystem.data.Observer;
 import pl.rutynar.auctionsystem.data.Subject;
 
@@ -14,6 +15,7 @@ import java.util.Set;
 @Entity
 @Table(name = "Auctions")
 @Data @EqualsAndHashCode(exclude = {"followers", "game"})
+@ToString(exclude = {"game", "user"})
 @NoArgsConstructor
 public class Auction implements Subject {
 

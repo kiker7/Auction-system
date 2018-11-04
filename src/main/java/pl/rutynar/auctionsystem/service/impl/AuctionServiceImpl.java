@@ -8,12 +8,17 @@ import pl.rutynar.auctionsystem.data.domain.Auction;
 import pl.rutynar.auctionsystem.data.domain.Game;
 import pl.rutynar.auctionsystem.data.domain.User;
 import pl.rutynar.auctionsystem.exception.AuctionNotFoundException;
+import pl.rutynar.auctionsystem.exception.UserNotFoundException;
 import pl.rutynar.auctionsystem.repository.AuctionRepository;
 import pl.rutynar.auctionsystem.service.AuctionService;
 import pl.rutynar.auctionsystem.service.UserService;
 
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -43,8 +48,8 @@ public class AuctionServiceImpl implements AuctionService {
         auction.setClosingTime(new Date());
         // Owner also follows auction
         Set<User> followers = new HashSet<>();
-        followers.add(owner);
         auction.setFollowers(followers);
+        auction.registerObserver(owner);
 
         auctionRepository.save(auction);
     }
@@ -52,5 +57,43 @@ public class AuctionServiceImpl implements AuctionService {
     @Override
     public Page<Auction> getAllAuctions(Pageable pageable) {
         return auctionRepository.findAllByOrderByClosingTimeDesc(pageable);
+    }
+
+    @Override
+    public String calculateTimeLeftToCloseAuction(Auction auction) {
+
+        Instant instant = Instant.ofEpochMilli(auction.getClosingTime().getTime());
+        LocalDateTime closingTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        Period period = Period.between(LocalDate.now(), closingTime.toLocalDate());
+//        Duration duration = Duration.between(LocalTime.now(), closingTime.toLocalTime());
+
+        return period.getDays() + " dni";
+    }
+
+    @Override
+    public String checkUserPermissionToFollow(User user, Auction auction) {
+
+        if(user.equals(auction.getUser())){
+            return "owner";
+        }else {
+            User follower = auction.getFollowers().stream()
+                    .filter(user::equals)
+                    .findAny()
+                    .orElse(null);
+
+            return follower == null ? "visitor" : "follower";
+        }
+    }
+
+    @Override
+    public void addFollower(User user, Auction auction) {
+        auction.registerObserver(user);
+        auctionRepository.save(auction);
+    }
+
+    @Override
+    public void removeFollower(User user, Auction auction) {
+        auction.removeObserver(user);
+        auctionRepository.save(auction);
     }
 }
