@@ -8,17 +8,13 @@ import pl.rutynar.auctionsystem.data.domain.Auction;
 import pl.rutynar.auctionsystem.data.domain.Game;
 import pl.rutynar.auctionsystem.data.domain.User;
 import pl.rutynar.auctionsystem.exception.AuctionNotFoundException;
-import pl.rutynar.auctionsystem.exception.UserNotFoundException;
 import pl.rutynar.auctionsystem.repository.AuctionRepository;
 import pl.rutynar.auctionsystem.service.AuctionService;
 import pl.rutynar.auctionsystem.service.UserService;
 
 import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -56,7 +52,7 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public Page<Auction> getAllAuctions(Pageable pageable) {
-        return auctionRepository.findAllByOrderByClosingTimeDesc(pageable);
+        return auctionRepository.findAllByAndFinishedIsFalse(pageable);
     }
 
     @Override
@@ -94,6 +90,12 @@ public class AuctionServiceImpl implements AuctionService {
     @Override
     public void removeFollower(User user, Auction auction) {
         auction.removeObserver(user);
+        auctionRepository.save(auction);
+    }
+
+    @Override
+    public void closeAuction(Auction auction) {
+        auction.setFinished(true);
         auctionRepository.save(auction);
     }
 }

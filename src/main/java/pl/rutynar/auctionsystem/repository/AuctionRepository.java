@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface AuctionRepository extends PagingAndSortingRepository<Auction, Long> {
 
     Optional<Auction> findOneById(long id);
-    Page<Auction> findAllByOrderByClosingTimeDesc(Pageable pageable);
+    Page<Auction> findAllByAndFinishedIsFalse(Pageable pageable);
     Optional<Auction> findOneByUser(User user);
 }

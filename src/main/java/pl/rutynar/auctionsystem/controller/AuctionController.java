@@ -3,6 +3,7 @@ package pl.rutynar.auctionsystem.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,7 +41,7 @@ public class AuctionController {
         int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<Auction> auctionPage = auctionService.getAllAuctions(new PageRequest(evalPage, evalPageSize));
+        Page<Auction> auctionPage = auctionService.getAllAuctions(new PageRequest(evalPage, evalPageSize, Sort.Direction.ASC, "closingTime"));
         PageWrapper pageWrapper = new PageWrapper(auctionPage.getTotalPages(), auctionPage.getNumber(), BUTTONS_TO_SHOW);
 
         modelAndView.addObject("auctions", auctionPage);
@@ -74,5 +75,12 @@ public class AuctionController {
 
         auctionService.removeFollower(userService.getCurrentUser(), auctionService.getAuctionById(auctionId));
         return "redirect:/auction/" + auctionId;
+    }
+
+    @GetMapping("auction/{auctionId}/close")
+    public String closeAuction(@PathVariable long auctionId){
+
+        auctionService.closeAuction(auctionService.getAuctionById(auctionId));
+        return "redirect:/auctions";
     }
 }

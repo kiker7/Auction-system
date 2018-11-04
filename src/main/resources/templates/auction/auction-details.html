@@ -19,7 +19,7 @@
         </div>
         <div>
             <div class="mt-5 pl-3" th:switch="${followPermission}">
-                <a th:href="'#'" th:case="'owner'" class="btn btn-primary">OWNER - Close auction</a>
+                <a th:href="'/auction/' + ${auction.getId()} + '/close'" th:case="'owner'" class="btn btn-primary">Zamknij aukcję</a>
                 <a th:href="'/auction/' + ${auction.getId()} + '/follow' " th:case="'visitor'" class="btn btn-primary">Follow</a>
                 <a th:href="'/auction/' + ${auction.getId()} + '/unfollow'" th:case="'follower'" class="btn btn-primary">Unfollow</a>
             </div>

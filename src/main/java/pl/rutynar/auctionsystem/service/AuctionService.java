@@ -23,4 +23,6 @@ public interface AuctionService {
     void addFollower(User user, Auction auction);
 
     void removeFollower(User user, Auction auction);
+
+    void closeAuction(Auction auction);
 }
