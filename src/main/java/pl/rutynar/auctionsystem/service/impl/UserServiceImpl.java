@@ -10,18 +10,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.rutynar.auctionsystem.data.domain.Game;
-import pl.rutynar.auctionsystem.data.domain.Library;
-import pl.rutynar.auctionsystem.data.domain.Role;
-import pl.rutynar.auctionsystem.data.domain.User;
+import pl.rutynar.auctionsystem.data.domain.*;
 import pl.rutynar.auctionsystem.dto.CreateUserFormDTO;
 import pl.rutynar.auctionsystem.exception.UserNotFoundException;
 import pl.rutynar.auctionsystem.repository.GameRepository;
+import pl.rutynar.auctionsystem.repository.NotificationRepository;
 import pl.rutynar.auctionsystem.repository.UserRepository;
 import pl.rutynar.auctionsystem.service.UserService;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -37,6 +36,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private NotificationRepository notificationRepository;
 
     @Override
     public Optional<User> getUserByLogin(String login) {
@@ -100,5 +101,10 @@ public class UserServiceImpl implements UserService {
 
         return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), authorities);
 
+    }
+
+    @Override
+    public List<Notification> getUserNotifications(User user) {
+        return notificationRepository.findAllByRecipient(user);
     }
 }

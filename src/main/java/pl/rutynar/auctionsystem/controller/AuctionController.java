@@ -82,6 +82,7 @@ public class AuctionController {
         }
 
         auctionService.processNewBid(auction, bidDTO);
+
         return "redirect:/auction/" + auctionId;
     }
 

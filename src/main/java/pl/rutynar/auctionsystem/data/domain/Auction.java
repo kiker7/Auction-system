@@ -57,17 +57,12 @@ public class Auction implements Subject {
     }
 
     @Override
-    public void notifyObservers() {
-        followers.forEach(observer -> observer.update(observer, game.getName(), game.getPrice()));
+    public void notifyObservers(Bid bid, Event event) {
+        followers.forEach(observer -> observer.update(bid, game, event));
     }
 
     @Override
-    public boolean submitNewBid(Bid bid) {
-        if(bid.getOffer() > game.getPrice()){
-            bids.add(bid);
-            notifyObservers();
-            return true;
-        }
-        return false;
+    public void submitNewBid(Bid bid, Event eventType) {
+        notifyObservers(bid, eventType);
     }
 }

@@ -3,10 +3,7 @@ package pl.rutynar.auctionsystem.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import pl.rutynar.auctionsystem.data.domain.Auction;
-import pl.rutynar.auctionsystem.data.domain.Bid;
-import pl.rutynar.auctionsystem.data.domain.Game;
-import pl.rutynar.auctionsystem.data.domain.User;
+import pl.rutynar.auctionsystem.data.domain.*;
 import pl.rutynar.auctionsystem.dto.BidDTO;
 
 import java.util.List;
@@ -34,4 +31,6 @@ public interface AuctionService {
     void processNewBid(Auction auction, BidDTO newBid);
 
     List<Bid> getBidsForAuction(Auction auction);
+
+    void notifyObservers(Auction auction, Event eventType, Bid bid);
 }

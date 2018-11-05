@@ -56,11 +56,14 @@ public class User implements Observer {
     private List<Notification> notifications;
 
     @Override
-    public void update(Observer observer, String gameName, int price) {
-        Notification notification = new Notification();
-        notification.setRecipient((User) observer);
-        notification.setEventType(Event.BID);
-        notification.setMessage("Nowa oferta: " + price + " PLN za grę: " + gameName + " od użtkownika: " + ((User) observer).getLogin());
-        notifications.add(notification);
+    public void update(Bid bid, Game game, Event eventType) {
+        switch (eventType){
+            case BID:
+                System.out.println("Użytkownik: " + bid.getUser().getLogin().toUpperCase() + " złożył ofertę: " + bid.getOffer() + " zł za grę " + game.getName());
+                break;
+            case FINISHED:
+                System.out.println("Aukcja gry: " + game.getName() + " została zakończona.");
+                break;
+        }
     }
 }

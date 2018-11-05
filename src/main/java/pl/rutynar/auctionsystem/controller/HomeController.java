@@ -11,6 +11,7 @@ import pl.rutynar.auctionsystem.data.domain.User;
 import pl.rutynar.auctionsystem.service.UserService;
 import pl.rutynar.auctionsystem.wrapper.PageWrapper;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -46,6 +47,9 @@ public class HomeController {
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageSizes", PAGE_SIZES);
         modelAndView.addObject("pager", pageWrapper);
+
+        // Notifications
+        modelAndView.addObject("notifications", userService.getUserNotifications(userService.getCurrentUser()));
 
         return modelAndView;
     }

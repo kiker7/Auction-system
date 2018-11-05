@@ -5,9 +5,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import pl.rutynar.auctionsystem.data.domain.Game;
 import pl.rutynar.auctionsystem.data.domain.Library;
+import pl.rutynar.auctionsystem.data.domain.Notification;
 import pl.rutynar.auctionsystem.data.domain.User;
 import pl.rutynar.auctionsystem.dto.CreateUserFormDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
@@ -23,4 +25,6 @@ public interface UserService extends UserDetailsService {
     Page<User> getAllUsers(Pageable pageable);
 
     Page<Game> getUserGamesFromLibrary(Pageable pageable, Library library);
+
+    List<Notification> getUserNotifications(User user);
 }
