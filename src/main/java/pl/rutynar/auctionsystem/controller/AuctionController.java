@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.rutynar.auctionsystem.data.domain.Auction;
+import pl.rutynar.auctionsystem.data.domain.Bid;
 import pl.rutynar.auctionsystem.data.domain.User;
 import pl.rutynar.auctionsystem.dto.BidDTO;
 import pl.rutynar.auctionsystem.service.AuctionService;
@@ -17,6 +18,9 @@ import pl.rutynar.auctionsystem.service.UserService;
 import pl.rutynar.auctionsystem.validator.SetBidFormValidator;
 import pl.rutynar.auctionsystem.wrapper.PageWrapper;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Controller
@@ -61,9 +65,17 @@ public class AuctionController {
         validator.validate(bidDTO, bindingResult);
 
         Auction auction = auctionService.getAuctionById(bidDTO.getAuctionId());
+        List<Bid> bids = auctionService.getBidsForAuction(auction);
+        Bid largestBid = bids.stream()
+                .max(Comparator.comparing(Bid::getOffer))
+                .orElse(null);
+        bids.remove(largestBid);
+
         model.addAttribute("auction", auction);
         model.addAttribute("closingTime", auctionService.calculateTimeLeftToCloseAuction(auction));
         model.addAttribute("followPermission", auctionService.checkUserPermissionToFollow(userService.getCurrentUser(), auction));
+        model.addAttribute("bids", bids);
+        model.addAttribute("largestBid", largestBid);
 
         if (bindingResult.hasErrors()) {
             return "auction/auction-details";
@@ -77,10 +89,18 @@ public class AuctionController {
     public ModelAndView getAuction(@PathVariable long auctionId, @ModelAttribute("newBid") BidDTO bidDTO) {
 
         Auction auction = auctionService.getAuctionById(auctionId);
+        List<Bid> bids = auctionService.getBidsForAuction(auction);
+        Bid largestBid = bids.stream()
+                .max(Comparator.comparing(Bid::getOffer))
+                .orElse(null);
+        bids.remove(largestBid);
+
         ModelAndView modelAndView = new ModelAndView("auction/auction-details");
         modelAndView.addObject("auction", auction);
         modelAndView.addObject("closingTime", auctionService.calculateTimeLeftToCloseAuction(auction));
         modelAndView.addObject("followPermission", auctionService.checkUserPermissionToFollow(userService.getCurrentUser(), auction));
+        modelAndView.addObject("bids", bids);
+        modelAndView.addObject("largestBid", largestBid);
         return modelAndView;
     }
 

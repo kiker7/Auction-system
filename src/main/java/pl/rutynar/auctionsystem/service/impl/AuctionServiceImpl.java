@@ -18,7 +18,9 @@ import pl.rutynar.auctionsystem.service.UserService;
 import java.time.*;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @Service
 public class AuctionServiceImpl implements AuctionService {
@@ -116,5 +118,10 @@ public class AuctionServiceImpl implements AuctionService {
         newBid.setUser(userService.getCurrentUser());
         newBid.setRequestTime(new Date());
         bidRepository.save(newBid);
+    }
+
+    @Override
+    public List<Bid> getBidsForAuction(Auction auction) {
+        return bidRepository.findAllByAuctionOrderByRequestTimeDesc(auction);
     }
 }

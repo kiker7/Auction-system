@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <div th:fragment="bidCard (bid)">
-    <p th:text="'Offer: ' + ${bid.getOffer()} + ' by ' + ${bid.getUser().getLogin()}"></p>
+    <div class="d-flex p-3 bg-light border rounded mt-2">
+        <div th:text="${bid.getOffer()} + ' zł '" style="font-weight: bold" class="pr-1"></div>
+        <div th:text="': ' + ${bid.getUser().getLogin().toUpperCase()} + ' : ' + ${bid.getRequestTime()}"></div>
+    </div>
 </div>
 </html>

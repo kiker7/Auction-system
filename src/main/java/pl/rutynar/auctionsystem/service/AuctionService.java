@@ -9,6 +9,9 @@ import pl.rutynar.auctionsystem.data.domain.Game;
 import pl.rutynar.auctionsystem.data.domain.User;
 import pl.rutynar.auctionsystem.dto.BidDTO;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 
 public interface AuctionService {
 
@@ -29,4 +32,6 @@ public interface AuctionService {
     void closeAuction(Auction auction);
 
     void processNewBid(Auction auction, BidDTO newBid);
+
+    List<Bid> getBidsForAuction(Auction auction);
 }

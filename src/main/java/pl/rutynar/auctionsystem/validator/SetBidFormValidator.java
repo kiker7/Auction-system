@@ -31,6 +31,10 @@ public class SetBidFormValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"offer", "NotEmpty");
         ValidationUtils.rejectIfEmpty(errors, "auctionId", "NotEmpty");
 
+        if(errors.hasErrors()){
+            errors.rejectValue("offer", "Reqex.bidDTO.requestTime");
+        }
+
         int offer = bidDTO.getOffer();
         Auction auction = auctionService.getAuctionById(bidDTO.getAuctionId());
         int price = auction.getGame().getPrice();

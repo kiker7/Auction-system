@@ -28,7 +28,7 @@
         </div>
     </div>
     <div>
-        <form th:action="'/auction/' + ${auction.getId()}" th:object="${newBid}" method="post">
+        <form th:if="${followPermission != 'owner'}" th:action="'/auction/' + ${auction.getId()}" th:object="${newBid}" method="post">
             <h5 class="pl-3">Złóż ofertę:</h5>
             <div class="form-group p-3">
                 <p th:if="${#fields.hasErrors('offer')}" th:errors="*{offer}" style="color: indianred;"></p>
@@ -42,7 +42,13 @@
         </form>
     </div>
     <div>
-        LIST
+        <div class="d-flex p-3 bg-success border rounded">
+            <div th:text="${largestBid.getOffer()} + ' zł '" style="font-weight: bold" class="pr-1"></div>
+            <div th:text="': ' + ${largestBid.getUser().getLogin().toUpperCase()} + ' : ' + ${largestBid.getRequestTime()}"></div>
+        </div>
+        <div th:each="game: ${bids}">
+            <div th:include="/auction/bid-card :: bidCard(${game})"></div>
+        </div>
     </div>
 
 

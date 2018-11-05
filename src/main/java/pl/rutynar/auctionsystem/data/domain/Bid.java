@@ -19,7 +19,7 @@ public class Bid {
     @Column(nullable = false)
     private int offer;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date requestTime;
 
     @ManyToOne(optional = false)
