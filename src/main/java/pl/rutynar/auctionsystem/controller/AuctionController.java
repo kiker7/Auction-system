@@ -5,14 +5,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.rutynar.auctionsystem.data.domain.Auction;
 import pl.rutynar.auctionsystem.data.domain.User;
+import pl.rutynar.auctionsystem.dto.BidDTO;
 import pl.rutynar.auctionsystem.service.AuctionService;
 import pl.rutynar.auctionsystem.service.UserService;
+import pl.rutynar.auctionsystem.validator.SetBidFormValidator;
 import pl.rutynar.auctionsystem.wrapper.PageWrapper;
 
 import java.util.Optional;
@@ -31,13 +33,14 @@ public class AuctionController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SetBidFormValidator validator;
+
     @GetMapping("/auctions")
-    public ModelAndView auctions(@RequestParam("pageSize")Optional<Integer> pageSize, @RequestParam("page") Optional<Integer> page) {
+    public ModelAndView auctions(@RequestParam("pageSize") Optional<Integer> pageSize, @RequestParam("page") Optional<Integer> page) {
 
 
         ModelAndView modelAndView = new ModelAndView("auction/auctions");
-
-
         int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
@@ -52,8 +55,26 @@ public class AuctionController {
         return modelAndView;
     }
 
+    @PostMapping("auction/{auctionId}")
+    public String processNewBid( Model model, @PathVariable long auctionId, @ModelAttribute("newBid") BidDTO bidDTO, BindingResult bindingResult) {
+
+        validator.validate(bidDTO, bindingResult);
+
+        Auction auction = auctionService.getAuctionById(bidDTO.getAuctionId());
+        model.addAttribute("auction", auction);
+        model.addAttribute("closingTime", auctionService.calculateTimeLeftToCloseAuction(auction));
+        model.addAttribute("followPermission", auctionService.checkUserPermissionToFollow(userService.getCurrentUser(), auction));
+
+        if (bindingResult.hasErrors()) {
+            return "auction/auction-details";
+        }
+
+        auctionService.processNewBid(auction, bidDTO);
+        return "redirect:/auction/" + auctionId;
+    }
+
     @GetMapping("/auction/{auctionId}")
-    public ModelAndView getAuction(@PathVariable long auctionId) {
+    public ModelAndView getAuction(@PathVariable long auctionId, @ModelAttribute("newBid") BidDTO bidDTO) {
 
         Auction auction = auctionService.getAuctionById(auctionId);
         ModelAndView modelAndView = new ModelAndView("auction/auction-details");
@@ -64,21 +85,21 @@ public class AuctionController {
     }
 
     @GetMapping("auction/{auctionId}/follow")
-    public String followAuction(@PathVariable long auctionId){
+    public String followAuction(@PathVariable long auctionId) {
 
         auctionService.addFollower(userService.getCurrentUser(), auctionService.getAuctionById(auctionId));
         return "redirect:/auction/" + auctionId;
     }
 
     @GetMapping("auction/{auctionId}/unfollow")
-    public String unfollowAuction(@PathVariable long auctionId){
+    public String unfollowAuction(@PathVariable long auctionId) {
 
         auctionService.removeFollower(userService.getCurrentUser(), auctionService.getAuctionById(auctionId));
         return "redirect:/auction/" + auctionId;
     }
 
     @GetMapping("auction/{auctionId}/close")
-    public String closeAuction(@PathVariable long auctionId){
+    public String closeAuction(@PathVariable long auctionId) {
 
         auctionService.closeAuction(auctionService.getAuctionById(auctionId));
         return "redirect:/auctions";

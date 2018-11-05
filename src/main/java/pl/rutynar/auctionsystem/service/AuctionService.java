@@ -4,8 +4,10 @@ package pl.rutynar.auctionsystem.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import pl.rutynar.auctionsystem.data.domain.Auction;
+import pl.rutynar.auctionsystem.data.domain.Bid;
 import pl.rutynar.auctionsystem.data.domain.Game;
 import pl.rutynar.auctionsystem.data.domain.User;
+import pl.rutynar.auctionsystem.dto.BidDTO;
 
 
 public interface AuctionService {
@@ -25,4 +27,6 @@ public interface AuctionService {
     void removeFollower(User user, Auction auction);
 
     void closeAuction(Auction auction);
+
+    void processNewBid(Auction auction, BidDTO newBid);
 }

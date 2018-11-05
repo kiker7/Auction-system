@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="bidCard (bid)">
+    <p th:text="'Offer: ' + ${bid.getOffer()} + ' by ' + ${bid.getUser().getLogin()}"></p>
+</div>
+</html>

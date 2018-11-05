@@ -5,10 +5,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.rutynar.auctionsystem.data.domain.Auction;
+import pl.rutynar.auctionsystem.data.domain.Bid;
 import pl.rutynar.auctionsystem.data.domain.Game;
 import pl.rutynar.auctionsystem.data.domain.User;
+import pl.rutynar.auctionsystem.dto.BidDTO;
 import pl.rutynar.auctionsystem.exception.AuctionNotFoundException;
 import pl.rutynar.auctionsystem.repository.AuctionRepository;
+import pl.rutynar.auctionsystem.repository.BidRepository;
 import pl.rutynar.auctionsystem.service.AuctionService;
 import pl.rutynar.auctionsystem.service.UserService;
 
@@ -25,6 +28,9 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Autowired
     private AuctionRepository auctionRepository;
+
+    @Autowired
+    private BidRepository bidRepository;
 
     @Override
     public Auction getAuctionById(long id) {
@@ -69,9 +75,9 @@ public class AuctionServiceImpl implements AuctionService {
     @Override
     public String checkUserPermissionToFollow(User user, Auction auction) {
 
-        if(user.equals(auction.getUser())){
+        if (user.equals(auction.getUser())) {
             return "owner";
-        }else {
+        } else {
             User follower = auction.getFollowers().stream()
                     .filter(user::equals)
                     .findAny()
@@ -96,6 +102,19 @@ public class AuctionServiceImpl implements AuctionService {
     @Override
     public void closeAuction(Auction auction) {
         auction.setFinished(true);
+
+        auction.notifyObservers();
+
         auctionRepository.save(auction);
+    }
+
+    @Override
+    public void processNewBid(Auction auction, BidDTO bidDTO) {
+        Bid newBid = new Bid();
+        newBid.setOffer(bidDTO.getOffer());
+        newBid.setAuction(auction);
+        newBid.setUser(userService.getCurrentUser());
+        newBid.setRequestTime(new Date());
+        bidRepository.save(newBid);
     }
 }
