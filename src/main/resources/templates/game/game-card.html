@@ -8,12 +8,29 @@
             <h4 class="card-title" th:text="${game.getName()}"></h4>
             <p th:text=" ${'Cena: ' + game.getPrice()}" ></p>
             <div th:if="${game?.auction}">
-                <a th:href="'/auction/' + ${game.getAuction().getId()}" class="btn btn-primary mx-auto" style="width: 200px">Przejdź do aukcji</a>
+                <div th:if="${#authentication.name} == ${game.getOwnerName()}">
+                    <div th:if="${game.getAuction().isFinished()}">
+                        <a th:href="'/auction/' + ${game.getAuction().getId()}" class="btn btn-light mx-auto" style="width: 200px">Historia aukcji</a>
+                    </div>
+                    <div th:unless="${game.getAuction().isFinished()}">
+                        <a th:href="'/auction/' + ${game.getAuction().getId()}" class="btn btn-primary mx-auto" style="width: 200px">Przejdź do aukcji</a>
+                    </div>
+                </div>
+                <div th:unless="${#authentication.name} == ${game.getOwnerName()}">
+                    <div th:if="${game.getAuction().isFinished()}">
+                        <p class="text-center text-info">ZAKOŃCZONA</p>
+                    </div>
+                    <div th:unless="${game.getAuction().isFinished()}">
+                        <a th:href="'/auction/' + ${game.getAuction().getId()}" class="btn btn-primary mx-auto" style="width: 200px">Przejdź do aukcji</a>
+                    </div>
+                </div>
             </div>
             <div th:unless="${game?.auction}">
                 <div th:if="${#authentication.name} == ${game.getOwnerName()}">
-
                     <a th:href="'/game/create-auction/' + ${game.getId()}" class="btn btn-primary mx-auto" style="width: 200px" >Wystaw na aukcję</a>
+                </div>
+                <div th:unless="${#authentication.name} == ${game.getOwnerName()}">
+                    <p class="text-center text-success">Oczekuje na aukcje</p>
                 </div>
             </div>
         </div>
