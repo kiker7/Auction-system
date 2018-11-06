@@ -30,7 +30,7 @@ public class CloseAuctionsTask {
     private AuctionRepository auctionRepository;
 
     @Transactional
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 1 0 * * ?")
     public void closeAuctions() throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
         Date now = dateFormat.parse(dateFormat.format(new Date()));
@@ -38,7 +38,7 @@ public class CloseAuctionsTask {
         try (Stream<Auction> auctionStream = auctionRepository.findAllByAndFinishedIsFalse()) {
             // Find auctions to close
             List<Auction> auctions = auctionStream
-                    .filter(auction -> now.compareTo(auction.getClosingTime()) <= 0)
+                    .filter(auction -> now.compareTo(auction.getClosingTime()) < 0)
                     .peek(e -> {
                         e.setFinished(true);
                         auctionService.notifyObservers(e, Event.FINISHED, null);
