@@ -8,15 +8,16 @@
 <div th:fragment="footer">
     <div style="margin-top: 50px;">
         <script th:src="@{/webjars/jquery/3.3.1-1/jquery.min.js}"></script>
-        <script th:src="@{/webjars/popper.js/1.14.1/umd/popper.min.js}" ></script>
+        <script th:src="@{/webjars/popper.js/1.14.1/umd/popper.min.js}"></script>
         <script th:src="@{/webjars/bootstrap/4.1.1/js/bootstrap.min.js}"></script>
         <script th:src="@{/js/pagination.js}"></script>
+        <script th:src="@{/js/main.js}"></script>
         <footer class="footer">
             <div class="container">
                 <span sec:authorize="isAuthenticated()">
-                | Użytkownik: <span sec:authentication="name"></span> |
-                Rola: <span sec:authentication="principal.authorities"></span>
-            </span>
+                    name:  <span sec:authentication="name"></span>
+                    role: <span sec:authentication="principal.authorities"></span>
+                </span>
             </div>
         </footer>
     </div>

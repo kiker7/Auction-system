@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.rutynar.auctionsystem.data.domain.User;
+import pl.rutynar.auctionsystem.repository.NotificationRepository;
 import pl.rutynar.auctionsystem.service.UserService;
 import pl.rutynar.auctionsystem.wrapper.PageWrapper;
 
@@ -25,6 +26,9 @@ public class HomeController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
 
     @GetMapping("/")
     public String home(){
@@ -52,5 +56,10 @@ public class HomeController {
         modelAndView.addObject("notifications", userService.getUserNotifications(userService.getCurrentUser()));
 
         return modelAndView;
+    }
+
+    @GetMapping("/home/user-notifications")
+    public @ResponseBody long getUserNotificationsJSON(){
+        return  notificationRepository.countByRecipient(userService.getCurrentUser()) ;
     }
 }
