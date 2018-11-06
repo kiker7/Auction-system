@@ -137,6 +137,9 @@ public class AuctionServiceImpl implements AuctionService {
                 case BID:
                     notification.setMessage("Użytkownik: " + bid.getUser().getLogin().toUpperCase() + " złożył ofertę: " + bid.getOffer() + " zł za grę: " + auction.getGame().getName());
                     break;
+                case AUCTION_WIN:
+                    notification.setMessage("Użytkownik: " + auction.getGame().getOwnerName().toUpperCase() + " wygrał aukcję gry: " + auction.getGame().getName() + "!");
+                    break;
             }
             notifications.add(notification);
         });

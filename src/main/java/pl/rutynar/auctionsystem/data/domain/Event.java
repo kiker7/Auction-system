@@ -1,5 +1,5 @@
 package pl.rutynar.auctionsystem.data.domain;
 
 public enum Event {
-    FINISHED, BID
+    FINISHED, BID, CREATED_AUCTION, AUCTION_WIN
 }
