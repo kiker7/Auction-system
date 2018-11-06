@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface NotificationRepository extends CrudRepository<Notification, Long> {
 
-    List<Notification> findAllByRecipient(User recipient);
+    List<Notification> findAllByRecipientOrderByIdDesc(User recipient);
 }

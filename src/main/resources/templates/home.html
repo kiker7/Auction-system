@@ -9,9 +9,14 @@
 
 <div class="container">
 
-    <div class="flex-column">
-        <div th:each="notification: ${notifications}">
-            <div th:text="${notification.getMessage()}"></div>
+    <h4 class="mt-2 mb-3">Powiadomienia:</h4>
+    <div class="card notification-panel scrollbar-primary">
+        <div class="card-body">
+            <div class="flex-column">
+                <div th:each="notification: ${notifications}">
+                    <div th:text="${notification.getMessage()}" class="bg-light p-2 mb-1 border rounded"></div>
+                </div>
+            </div>
         </div>
     </div>
 

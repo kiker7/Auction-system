@@ -42,7 +42,7 @@
         </form>
     </div>
     <div>
-        <div class="d-flex p-3 bg-success border rounded">
+        <div class="d-flex p-3 bg-success border rounded" th:if="${largestBid != null}">
             <div th:text="${largestBid.getOffer()} + ' zł '" style="font-weight: bold" class="pr-1"></div>
             <div th:text="': ' + ${largestBid.getUser().getLogin().toUpperCase()} + ' : ' + ${largestBid.getRequestTime()}"></div>
         </div>

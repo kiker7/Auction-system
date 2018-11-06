@@ -6,7 +6,7 @@
         <img class="card-img-top" th:src="@{/images/img_avatar.png}" alt="Avatar" style="width: 100%;"/>
         <div class="card-body">
             <h4 class="card-title" th:text="${user.getFirstName() + ' ' + user.getLastName() }"></h4>
-            <p th:text="'Liczba gier w kolekcji: ' + ${user.getLibrary().getGames().size()}"></p>
+            <p th:text="'Liczba gier w bibliotece: ' + ${user.getLibrary().getGames().size()}"></p>
         </div>
     </div>
 </div>

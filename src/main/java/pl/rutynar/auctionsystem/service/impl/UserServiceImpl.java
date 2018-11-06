@@ -105,6 +105,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Notification> getUserNotifications(User user) {
-        return notificationRepository.findAllByRecipient(user);
+        return notificationRepository.findAllByRecipientOrderByIdDesc(user);
     }
 }
