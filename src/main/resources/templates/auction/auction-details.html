@@ -49,7 +49,7 @@
             <div th:text="': ' + ${largestBid.getUser().getLogin().toUpperCase()} + ' : ' + ${largestBid.getRequestTime()}"></div>
         </div>
         <div th:each="game: ${bids}">
-            <div th:include="/auction/bid-card :: bidCard(${game})"></div>
+            <div th:include="auction/bid-card :: bidCard(${game})"></div>
         </div>
     </div>
 

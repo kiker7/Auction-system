@@ -16,7 +16,7 @@
     </div>
     <div class="row" style="margin: 30px auto; justify-content: space-evenly">
         <div th:each="game: ${gameList}">
-            <div th:include="/game/game-card :: gameCard(${game})"></div>
+            <div th:include="game/game-card :: gameCard(${game})"></div>
         </div>
     </div>
     <div class="row">
