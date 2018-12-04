@@ -1,5 +1,6 @@
 package pl.rutynar.auctionsystem.data.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 @Table(name = "Bids")
 @Data
 @NoArgsConstructor
+@JsonIgnoreProperties(value = {"user", "auction", "id", "requestTime"}) // For demo test
 public class Bid {
 
     @Id

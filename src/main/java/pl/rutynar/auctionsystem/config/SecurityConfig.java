@@ -1,6 +1,5 @@
 package pl.rutynar.auctionsystem.config;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +14,6 @@ import pl.rutynar.auctionsystem.service.UserService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-    private static final Logger logger = Logger.getLogger(SecurityConfig.class);
 
     @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired
@@ -25,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/login", "/register", "/webjars/**").permitAll()
+                .antMatchers("/login", "/register", "/webjars/**", "/api/demo/**").permitAll()
                 .anyRequest().fullyAuthenticated()
                 .and()
                 .formLogin()

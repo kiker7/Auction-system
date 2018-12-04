@@ -1,5 +1,6 @@
 package pl.rutynar.auctionsystem.data.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,8 @@ import java.util.Set;
 @Entity
 @Table(name = "Users")
 @Data @EqualsAndHashCode(exclude = "followedAuctions")
-@ToString(exclude = {"followedAuctions", "auctions"})
+@ToString(exclude = {"followedAuctions", "auctions", "library", "password", "bids", "notifications"})
+@JsonIgnoreProperties(value = {"followedAuctions", "auctions", "library", "password", "bids", "notifications"})
 @NoArgsConstructor
 public class User implements Observer {
 
